@@ -1,5 +1,7 @@
 package fr.declaration.variable;
 
+import java.util.Scanner;
+
 public class DeclarationApp {
 
     public static void main(String[] args){
@@ -7,8 +9,8 @@ public class DeclarationApp {
         short shortVar = 3;
         int intVar = 4;
         long longVar = 5;
-        float floatVar = 6;
-        double doubleVar = 7;
+        float floatVar = 6.1F;
+        double doubleVar = 7326L;
         boolean booleanVar = true;
         String randomString = "test\ntest apres retour a la ligne";
 
@@ -20,6 +22,12 @@ public class DeclarationApp {
         System.out.println("Valeur double : " + doubleVar);
         System.out.println("Valeur boolean : " + booleanVar);
         System.out.println("Valeur string : " + randomString);
+
+        Scanner scan = new Scanner( System.in );
+        String test = scan.nextLine();
+        scan.close();
+        System.out.println(test);
+
     }
 
 }
