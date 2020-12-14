@@ -1,12 +1,19 @@
 package banque;
 
 import banque.entites.Compte;
+import banque.entites.CompteTaux;
 
 public class TestBanque {
 
     public static void main(String[] args){
-        Compte instance = new Compte("0315", 256);
-        System.out.println(instance);
+        Compte[] comptes = {
+                new Compte("03125", 126),
+                new CompteTaux("03126", 512, 1.14),
+        };
+
+        for (Compte compte : comptes){
+            System.out.println(compte);
+        }
     }
 
 }
