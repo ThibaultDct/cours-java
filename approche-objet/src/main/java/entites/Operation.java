@@ -12,14 +12,6 @@ public abstract class Operation {
         this.montant = montant;
     }
 
-    public String afficherType(){
-        String type = "";
-        if (this instanceof Debit){
-            type = "Debit";
-        } else if (this instanceof Credit){
-            type = "Credit";
-        }
-        return type;
-    }
+    public abstract String afficherType();
 
 }
