@@ -1,9 +1,9 @@
-package operation;
+package entites;
 
 public abstract class Operation {
 
-    String date;
-    Integer montant;
+    public String date;
+    public Integer montant;
 
     public Operation(){}
 

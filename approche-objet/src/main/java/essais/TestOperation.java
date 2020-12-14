@@ -1,4 +1,8 @@
-package operation;
+package essais;
+
+import entites.Credit;
+import entites.Debit;
+import entites.Operation;
 
 public class TestOperation {
 
