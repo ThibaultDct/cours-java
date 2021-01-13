@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
+import java.util.Optional;
 
 public class FournisseurDaoJdbc implements FournisseurDao {
 
@@ -14,6 +15,7 @@ public class FournisseurDaoJdbc implements FournisseurDao {
     private static final String INSERT_QUERY = "INSERT INTO fournisseur VALUES (?, ?)";
     private static final String UPDATE_QUERY = "UPDATE fournisseur SET NOM = ? WHERE NOM = ?";
     private static final String DELETE_QUERY = "DELETE FROM fournisseur WHERE NOM = ? AND ID = ?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM fournisseur WHERE ID = ?";
 
     private static FournisseurDaoJdbc single;
 
@@ -85,6 +87,24 @@ public class FournisseurDaoJdbc implements FournisseurDao {
             result = true;
         } catch (SQLException e){
             System.out.println("Une erreur est survenue lors de la suppression : " + e.getStackTrace());
+        }
+
+        return result;
+    }
+
+    @Override
+    public Optional<Fournisseur> findById(int id){
+        Optional<Fournisseur> result = Optional.empty();
+
+        try {
+            PreparedStatement statement = DBConnection.getSingle().getConnection().prepareStatement(SELECT_QUERY);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                Fournisseur fournisseur = new Fournisseur(resultSet.getInt("id"), resultSet.getString("nom"));
+                result = Optional.of(fournisseur);
+            }
+        } catch (SQLException e) {
+            System.out.println("Une erreur est survenue : " + e.getMessage());
         }
 
         return result;
