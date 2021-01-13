@@ -21,6 +21,10 @@ public class DBConnection {
         return single;
     }
 
+    public void close() throws SQLException {
+        this.connection.close();
+    }
+
     public Connection getConnection() {
         return connection;
     }

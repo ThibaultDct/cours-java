@@ -10,7 +10,14 @@ import java.sql.*;
 
 public class FournisseurDaoJdbc implements FournisseurDao {
 
+    private static final String SELECT_QUERY = "SELECT * FROM fournisseur";
+    private static final String INSERT_QUERY = "INSERT INTO fournisseur VALUES (?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE fournisseur SET NOM = ? WHERE NOM = ?";
+    private static final String DELETE_QUERY = "DELETE FROM fournisseur WHERE NOM = ? AND ID = ?";
+
     private static FournisseurDaoJdbc single;
+
+    private FournisseurDaoJdbc(){}
 
     public static FournisseurDaoJdbc getSingle() {
         if ( null == single ) {
@@ -24,7 +31,7 @@ public class FournisseurDaoJdbc implements FournisseurDao {
         List<Fournisseur> result = new ArrayList<>();
 
         try {
-            PreparedStatement statement = DBConnection.getSingle().getConnection().prepareStatement("SELECT * FROM fournisseur");
+            PreparedStatement statement = DBConnection.getSingle().getConnection().prepareStatement(SELECT_QUERY);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 Fournisseur fournisseur = new Fournisseur(resultSet.getInt("id"), resultSet.getString("nom"));
@@ -32,7 +39,7 @@ public class FournisseurDaoJdbc implements FournisseurDao {
             }
         } catch (SQLException e) {
             result = null;
-            System.out.println("Une erreur est survenue : " + e.getStackTrace());
+            System.out.println("Une erreur est survenue : " + e.getMessage());
         }
 
         return result;
@@ -40,8 +47,7 @@ public class FournisseurDaoJdbc implements FournisseurDao {
 
     @Override
     public void insert(Fournisseur fournisseur) {
-        try {
-            PreparedStatement st = DBConnection.getSingle().getConnection().prepareStatement("INSERT INTO fournisseur VALUES (?, ?)");
+        try (PreparedStatement st = DBConnection.getSingle().getConnection().prepareStatement(INSERT_QUERY);) {
             st.setInt(1, fournisseur.getId());
             st.setString(2, fournisseur.getNom());
             st.executeQuery();
@@ -55,7 +61,7 @@ public class FournisseurDaoJdbc implements FournisseurDao {
         int result = 0;
 
         try {
-            PreparedStatement st = DBConnection.getSingle().getConnection().prepareStatement("UPDATE fournisseur SET NOM = ? WHERE NOM = ?");
+            PreparedStatement st = DBConnection.getSingle().getConnection().prepareStatement(UPDATE_QUERY);
             st.setString(1, new_name);
             st.setString(2, old_name);
             st.executeQuery();
@@ -72,7 +78,7 @@ public class FournisseurDaoJdbc implements FournisseurDao {
         boolean result = false;
 
         try {
-            PreparedStatement st = DBConnection.getSingle().getConnection().prepareStatement("DELETE FROM fournisseur WHERE NOM = ? AND ID = ?");
+            PreparedStatement st = DBConnection.getSingle().getConnection().prepareStatement(DELETE_QUERY);
             st.setString(1, fournisseur.getNom());
             st.setInt(2, fournisseur.getId());
             st.executeQuery();
