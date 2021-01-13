@@ -1,23 +1,16 @@
 package fr.epsi.jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import fr.epsi.jdbc.dao.FournisseurDaoJdbc;
+import fr.epsi.jdbc.entities.Fournisseur;
 
 public class TestInsertion {
 
     public static void main(String[] args) {
 
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/compta", "root", "");
-            Statement st = connection.createStatement();
-            int nb = st.executeUpdate("INSERT INTO fournisseur VALUES (DEFAULT, 'La Maison de la Peinture')");
-            st.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Fournisseur fournisseur = new Fournisseur(20, "Apple");
+        Fournisseur fournisseur2 = new Fournisseur(21, "L'Espace Création");
+        FournisseurDaoJdbc.getSingle().insert(fournisseur);
+        FournisseurDaoJdbc.getSingle().insert(fournisseur2);
 
     }
 

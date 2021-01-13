@@ -5,6 +5,11 @@ public class Fournisseur {
     private int id;
     private String nom;
 
+    public Fournisseur(int id, String nom) {
+        this.id = id;
+        this.nom = nom;
+    }
+
     public int getId() {
         return id;
     }
@@ -23,6 +28,6 @@ public class Fournisseur {
 
     @Override
     public String toString(){
-        return "ID : " + this.getId() + " | Nom : " + this.getNom();
+        return this.getNom() + " (" + this.getId() + ")";
     }
 }
